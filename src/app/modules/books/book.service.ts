@@ -11,7 +11,7 @@ const createBook = async (book: IBook) => {
 };
 
 const getAllBooks = async () => {
-  const allBooks = await Book.find();
+  const allBooks = await Book.find({});
 
   //   console.log(allBooks);
 

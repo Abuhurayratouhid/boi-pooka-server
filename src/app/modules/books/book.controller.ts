@@ -20,7 +20,7 @@ const createBook = catAsync(async (req: Request, res: Response) => {
 
 const getAllBooks = catAsync(async (req: Request, res: Response) => {
   const result = await BookService.getAllBooks();
-  console.log(result);
+  console.log('from controller');
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
