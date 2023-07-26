@@ -14,3 +14,7 @@ export type IGenericResponse<T> = {
   };
   data: T;
 };
+
+export interface IReview {
+  comment: string;
+}

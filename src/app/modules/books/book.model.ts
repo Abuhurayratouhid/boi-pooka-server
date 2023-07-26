@@ -4,6 +4,7 @@ import { BookModel, IBook } from './book.interface';
 const bookSchema = new Schema<IBook>(
   {
     title: { type: String, required: true },
+    creatorEmail: { type: String, required: true },
     author: { type: String, required: true },
     genre: { type: String, required: true },
     publicationDate: { type: String, required: true },
@@ -12,7 +13,11 @@ const bookSchema = new Schema<IBook>(
     isReading: { type: Boolean, default: false },
     readSoon: { type: Boolean, default: false },
     isCompleted: { type: Boolean, default: false },
-    reviews: [{ type: String }],
+    reviews: [
+      {
+        comment: { type: String },
+      },
+    ],
   },
   {
     timestamps: true,
