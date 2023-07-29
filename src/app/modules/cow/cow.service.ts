@@ -28,7 +28,7 @@ const getAllCows = async (
   const { page, limit, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(paginationOptions);
 
-  const cowSearchableFields = ['name', 'location', 'breed', 'category'];
+  const cowSearchableFields = ['title', 'author', 'genre'];
 
   const andConditions = [];
 
@@ -60,7 +60,7 @@ const getAllCows = async (
   const whereConditions =
     andConditions.length > 0 ? { $and: andConditions } : {};
 
-  const total = await CowModel.countDocuments();
+  const total = await CowModel.countDocuments(whereConditions);
   const result = await CowModel.find(whereConditions)
     .sort(sortConditions)
     .skip(skip)

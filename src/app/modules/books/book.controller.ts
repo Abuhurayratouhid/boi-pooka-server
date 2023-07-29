@@ -3,6 +3,8 @@ import catAsync from '../../../shared/catchAsync';
 import { BookService } from './book.service';
 import sendResponse from '../../../shared/sendResponse';
 import httpStatus from 'http-status';
+import pick from '../../../shared/pic';
+import { paginationFields } from '../../../pagination/paginationFields';
 // import { IBook } from './book.interface';
 
 const createBook = catAsync(async (req: Request, res: Response) => {
@@ -20,7 +22,9 @@ const createBook = catAsync(async (req: Request, res: Response) => {
 });
 
 const getAllBooks = catAsync(async (req: Request, res: Response) => {
-  const result = await BookService.getAllBooks();
+  const filters = pick(req.query, ['searchTerm', 'title', 'author', 'genre']);
+  const paginationOptions = pick(req.query, paginationFields);
+  const result = await BookService.getAllBooks(filters, paginationOptions);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

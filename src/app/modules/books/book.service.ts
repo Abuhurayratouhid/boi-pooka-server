@@ -1,7 +1,10 @@
+import { SortOrder } from 'mongoose';
 import ApiError from '../../../errors/ApiError';
 import { IReview } from '../../../interfaces/common';
 import { IBook } from './book.interface';
 import { Book } from './book.model';
+import { paginationHelpers } from '../../../pagination/paginationCalculate';
+import { IPaginationOptions } from '../../../pagination/paginationType';
 
 const createBook = async (book: IBook) => {
   const createdBook = await Book.create(book);
@@ -11,12 +14,60 @@ const createBook = async (book: IBook) => {
   return createdBook;
 };
 
-const getAllBooks = async () => {
-  const allBooks = await Book.find({}).sort({ createdAt: -1 });
+const getAllBooks = async (
+  filters: { searchTerm?: string },
+  paginationOptions: IPaginationOptions
+) => {
+  const { searchTerm, ...filtersData } = filters;
+  const { page, limit, skip, sortBy, sortOrder } =
+    paginationHelpers.calculatePagination(paginationOptions);
 
-  //   console.log(allBooks);
+  const cowSearchableFields = ['title', 'author', 'genre'];
 
-  return allBooks;
+  const andConditions = [];
+
+  if (searchTerm) {
+    andConditions.push({
+      $or: cowSearchableFields.map(field => ({
+        [field]: {
+          $regex: searchTerm,
+          $options: 'i',
+        },
+      })),
+    });
+  }
+
+  if (Object.keys(filtersData).length) {
+    andConditions.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    });
+  }
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+
+  const whereConditions =
+    andConditions.length > 0 ? { $and: andConditions } : {};
+
+  const total = await Book.countDocuments(whereConditions);
+  const result = await Book.find(whereConditions)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+  //   console.log(allUsers);
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
 };
 const getSingleBook = async (id: string) => {
   const singleBook = await Book.find({ _id: id });
