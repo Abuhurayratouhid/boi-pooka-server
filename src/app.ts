@@ -6,6 +6,7 @@ import globalErrorHandler from './middleware/globalErrorHandler';
 import { cowRoutes } from './app/modules/cow/cow.route';
 import { usersController } from './app/modules/users/users.controller';
 import { BookRoutes } from './app/modules/books/book.route';
+import { WishListRoutes } from './app/modules/wishList/wishList.route';
 // import globalErrorHandler from './app/middleware/globalErrorHandler';
 // import routes from './app/routes';
 const app: Application = express();
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 //Application routes
 
 app.use('/api/v1', BookRoutes);
+app.use('/api/v1', WishListRoutes);
 
 // testing route
 app.get('/', async (req: Request, res: Response) => {
