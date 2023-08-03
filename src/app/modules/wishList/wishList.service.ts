@@ -3,7 +3,12 @@ import { IWishList } from './wishList.interface';
 import { WishList } from './wishList.model';
 
 const createWishList = async (wish: IWishList) => {
-  console.log('from service', wish);
+  //   const isExist = await WishList.find({ id: wish.id });
+
+  //   if (isExist) {
+  //     throw new ApiError(400, 'Already Exist');
+  //   }
+  //   console.log('from service', isExist);
 
   const createdWishList = await WishList.create(wish);
 

@@ -4,6 +4,7 @@ import { IWishList, wishListModel } from './wishList.interface';
 
 const wishListSchema = new Schema<IWishList>(
   {
+    id: { type: String, required: true },
     title: { type: String, required: true },
     creatorEmail: { type: String, required: true },
     author: { type: String, required: true },

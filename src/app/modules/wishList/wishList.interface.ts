@@ -5,6 +5,7 @@ interface IReview {
 }
 
 export interface IWishList {
+  id: string;
   title: string;
   author: string;
   creatorEmail: string;
