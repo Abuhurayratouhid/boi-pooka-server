@@ -17,7 +17,7 @@ const sendResponse = <T>(res: Response, data: TApiResponse<T>): void => {
     statusCode: data.statusCode,
     success: data.success,
     message: data.message || null,
-    meta: data.meta || null,
+    meta: data.meta || null || undefined,
     data: data.data || null || undefined,
   };
 

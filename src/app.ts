@@ -1,10 +1,9 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import httpStatus from 'http-status';
-import { usersRoutes } from './app/modules/users/users.route';
+
 import globalErrorHandler from './middleware/globalErrorHandler';
-import { cowRoutes } from './app/modules/cow/cow.route';
-import { usersController } from './app/modules/users/users.controller';
+
 import { BookRoutes } from './app/modules/books/book.route';
 import { WishListRoutes } from './app/modules/wishList/wishList.route';
 // import globalErrorHandler from './app/middleware/globalErrorHandler';
